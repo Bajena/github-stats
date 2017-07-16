@@ -1,0 +1,23 @@
+<%graphql
+  fragment Viewer on User {
+    issues(first: 10) {
+      totalCount
+
+      ...Views::Issues::Issues::IssueConnection
+    }
+  }
+%>
+
+<% viewer = Views::Issues::Index::Viewer.new(viewer) %>
+
+<div class="repositories">
+  <ul class="list-group">
+    <li class="list-group-item">
+      <strong>Your issues</strong>
+      <%# NOTE: total_count is snake case here %>
+      <span class="badge"><%= viewer.issues.total_count %></span>
+    </li>
+
+    <%= render "issues/issues", issues: viewer.issues %>
+  </ul>
+</div>

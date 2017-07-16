@@ -1,0 +1,43 @@
+<%graphql
+  fragment Repository on Repository {
+    id
+    owner {
+      login
+    }
+    name
+    stargazers {
+      totalCount
+    }
+    issues(first: 10) {
+      totalCount
+      edges {
+        node {
+          id
+          title
+        }
+
+        cursor
+      }
+    }
+    ...Views::Repositories::Icon::Repository
+  }
+%>
+<% repository = Views::Repositories::ListItem::Repository.new(repository) %>
+
+<li class="list-group-item">
+  <span class="star-badge">
+    <%= repository.stargazers.total_count %>
+    <span class="octicon octicon-star"></span>
+  </span>
+
+  <%= render "repositories/icon", repository: repository %>
+
+  <a href="<%= repository_path(repository.id) %>">
+    <%= repository.owner.login %>/<%= repository.name %>
+  </a> <br />
+  Issues: <% if repository.issues.total_count > 0 %><br /><% else %>None<% end %>
+  <% repository.issues.each_node do |issue| %>
+    <strong><%= issue.id %></strong><br/>
+    <%= issue.title %><br/>
+  <% end %>
+</li>

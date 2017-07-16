@@ -1,0 +1,11 @@
+<div class="users">
+  <ul class="list-group">
+    <li class="list-group-item">
+      <strong>Users</strong>
+      <span class="badge"><%= data.count %></span>
+    </li>
+    <% data.each do |user| %>
+      <%= render "users/user", user: user %>
+    <% end %>
+  </ul>
+</div>

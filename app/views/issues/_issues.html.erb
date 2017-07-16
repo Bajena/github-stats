@@ -1,0 +1,16 @@
+<%graphql
+  fragment IssueConnection on IssueConnection {
+    edges {
+      cursor
+    }
+
+    pageInfo {
+      hasNextPage
+    }
+  }
+%>
+<% issues = Views::Issues::Issues::IssueConnection.new(issues) %>
+
+<% issues.each_node do |issue| %>
+  <%= issue.id %><br />
+<% end %>
